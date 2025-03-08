@@ -18,6 +18,24 @@ contract TokenSale {
   }
 
   function multiply(uint256 x, uint256 y) internal pure returns(uint256 z) {
-    require(y == 0)
+    require(y == 0 || (z = x * y) / y == x);
   }
+
+  function buyToken(uint256 _numberOfTokens) public payable {
+    require(msg.value == multiply(_numberOfTokens, tokensPrice));
+    require(tokenContract.balanceOf(address(this)) >= _numberOfTokens);
+    require(tokenContract.transfer(msg.sender, _numberOfTokens * 1_000_000_000));
+
+    tokenSold += _numberOfTokens;
+
+    emit Sell(msg.sender, _numberOfTokens);
+  }
+
+  function endSale() public {
+    require(msg.sender == admin);
+    require(tokenContract.transfer(admin, tokenContract.balanceOf(address(this))));
+
+    payable(admin).transfer(address(this).balance);
+  }
+
 }
