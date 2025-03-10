@@ -33,6 +33,6 @@ describe("DOMToken", function() {
     await domToken.connect(addr1).transfer(addr2.address, ethers.utils.parseEther("50"));
 
     const balanceAddr2 = await domToken.balanceOf(addr2.address);
-    expect(balanceAddr2).to.be.closeTo(ethers.utils.parseEther("49.95", ethers.utils.parseEther("0.01"));)
+    expect(balanceAddr2).to.be.closeTo(ethers.utils.parseEther("49.95", ethers.utils.parseEther("0.01")));
   });
 });
